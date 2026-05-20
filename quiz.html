@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A validated adult neurodiversity screening assessment for ADHD, Autism, and AuDHD — using ASRS-v1.1, AQ-10, CAT-Q, and RAADS-R." />
+  <title>NeuroScreen — neurodiversepeople.com</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 1 — WELCOME
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="page-wrap">
+    <nav class="site-nav">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;color:inherit">NeuroDiverse People</a>
+    </nav>
+
+    <main class="hero">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Free · Private · Evidence-based</span>
+        <h1 class="hero-title">Find out if you might be neurodivergent</h1>
+        <p class="hero-body">This adaptive screening assessment uses four internationally validated clinical instruments to measure traits associated with ADHD, Autism Spectrum Condition, and AuDHD (co-occurring ADHD + Autism).</p>
+
+        <div class="instrument-row">
+          <div class="instrument-chip">ASRS-v1.1 <span>ADHD screen</span></div>
+          <div class="instrument-chip">AQ-10 <span>Autism screen</span></div>
+          <div class="instrument-chip">CAT-Q <span>Masking</span></div>
+          <div class="instrument-chip">RAADS-R <span>Extended autism</span></div>
+        </div>
+
+        <div class="meta-row">
+          <span>⏱ 10–35 min</span>
+          <span>🔒 No data stored</span>
+          <span>👤 Adults 18+</span>
+        </div>
+
+        <button id="start-btn" class="btn btn-hero">Start the assessment →</button>
+
+        <div class="disclaimer-box">
+          <strong>Medical disclaimer:</strong> This tool screens for traits — it does not diagnose. A formal diagnosis requires evaluation by a qualified clinician. If you are in crisis, please contact your GP or a mental health helpline immediately.
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="brain-graphic">
+          <svg width="260" height="260" viewBox="0 0 260 260" fill="none">
+            <circle cx="130" cy="130" r="120" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+            <circle cx="130" cy="90"  r="28" fill="#3B82F6" opacity="0.85"/>
+            <circle cx="88"  cy="148" r="24" fill="#8B5CF6" opacity="0.75"/>
+            <circle cx="172" cy="148" r="24" fill="#06B6D4" opacity="0.75"/>
+            <circle cx="130" cy="178" r="18" fill="#10B981" opacity="0.7"/>
+            <line x1="130" y1="118" x2="88"  y2="124" stroke="#6366F1" stroke-width="2.5" opacity="0.5"/>
+            <line x1="130" y1="118" x2="172" y2="124" stroke="#6366F1" stroke-width="2.5" opacity="0.5"/>
+            <line x1="88"  y1="172" x2="130" y2="160" stroke="#6366F1" stroke-width="2"   opacity="0.4"/>
+            <line x1="172" y1="172" x2="130" y2="160" stroke="#6366F1" stroke-width="2"   opacity="0.4"/>
+            <line x1="88"  y1="148" x2="172" y2="148" stroke="#6366F1" stroke-width="2"   opacity="0.3"/>
+            <text x="130" y="95"  text-anchor="middle" fill="white" font-size="11" font-weight="700">ADHD</text>
+            <text x="88"  y="153" text-anchor="middle" fill="white" font-size="9"  font-weight="600">Autism</text>
+            <text x="172" y="153" text-anchor="middle" fill="white" font-size="9"  font-weight="600">CAT-Q</text>
+            <text x="130" y="183" text-anchor="middle" fill="white" font-size="8"  font-weight="600">RAADS</text>
+          </svg>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 2 — QUIZ
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-chrome">
+
+    <header class="quiz-top">
+      <span class="quiz-logo">NeuroDiverse People</span>
+      <div class="quiz-progress-area">
+        <span id="quiz-phase-label" class="phase-label">Phase 1 · Attention &amp; Social Screens</span>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="progress-bar"></div>
+        </div>
+        <span id="progress-counter" class="progress-counter">Q 1 / 16</span>
+      </div>
+    </header>
+
+    <div class="quiz-body">
+      <div class="question-wrap" id="question-wrap">
+        <div class="question-instrument-tag" id="q-instrument-tag">ASRS-v1.1 Part A</div>
+        <p  class="question-hint"          id="q-hint"></p>
+        <h2 class="question-text"          id="q-text">Loading…</h2>
+
+        <div class="options-list" id="options-list" role="radiogroup" aria-labelledby="q-text">
+          <!-- Options injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <footer class="quiz-footer">
+      <button id="prev-btn" class="btn btn-back" disabled>← Back</button>
+      <button id="next-btn" class="btn btn-next" disabled>Continue →</button>
+    </footer>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 3 — ANALYSING
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-analysing" class="screen">
+  <div class="analysing-wrap">
+    <div class="spinner-ring"></div>
+    <h2>Analysing your responses…</h2>
+    <p id="analysing-msg">Calculating your adaptive path</p>
+    <ul class="analysing-steps" id="analysing-steps"></ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 4 — RESULTS
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-page">
+
+    <header class="results-top">
+      <span class="quiz-logo">NeuroDiverse People</span>
+      <h2 class="results-title">Your NeuroProfile</h2>
+      <p  class="results-by"    id="results-by">Based on validated clinical screening instruments</p>
+    </header>
+
+    <div class="results-layout">
+
+      <!-- Radar chart -->
+      <div class="result-card chart-card">
+        <h3>Profile Overview</h3>
+        <div class="chart-container">
+          <canvas id="radar-chart"></canvas>
+        </div>
+        <p class="chart-note">Dashed ring = clinical referral threshold (100%). Values above the ring suggest professional assessment is advisable.</p>
+      </div>
+
+      <!-- Score blocks -->
+      <div class="score-blocks" id="score-blocks"></div>
+
+    </div>
+
+    <!-- Interpretation -->
+    <div class="result-card interp-card">
+      <h3>What your scores suggest</h3>
+      <div id="interp-body" class="interp-body"></div>
+    </div>
+
+    <!-- Next steps -->
+    <div class="result-card steps-card">
+      <h3>Recommended next steps</h3>
+      <ol class="steps-list" id="steps-list"></ol>
+    </div>
+
+    <!-- RAADS-R upsell -->
+    <div class="result-card raadsr-card" id="raadsr-card" style="display:none">
+      <div class="raadsr-inner">
+        <div>
+          <h3>Want a deeper autism profile?</h3>
+          <p>The RAADS-R adds 40 questions across four subscales: Social Relatedness, Language, Sensory-Motor, and Circumscribed Interests. Takes ~12 minutes.</p>
+        </div>
+        <button id="raadsr-start-btn" class="btn btn-accent">Take RAADS-R →</button>
+      </div>
+    </div>
+
+    <div class="results-actions">
+      <button id="restart-btn" class="btn btn-ghost">Start over</button>
+      <button id="print-btn"   class="btn btn-outline">Save / Print PDF</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 5 — RAADS-R
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-raadsr" class="screen">
+  <div class="quiz-chrome">
+
+    <header class="quiz-top">
+      <span class="quiz-logo">NeuroDiverse People</span>
+      <div class="quiz-progress-area">
+        <span class="phase-label">RAADS-R · Extended Autism Assessment</span>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="raadsr-progress-bar"></div>
+        </div>
+        <span id="raadsr-counter" class="progress-counter">Q 1 / 40</span>
+      </div>
+    </header>
+
+    <div class="quiz-body">
+      <div class="question-wrap" id="raadsr-question-wrap">
+        <div class="question-instrument-tag">RAADS-R</div>
+        <p  class="question-hint">Think about how each statement applies to you — both now and when you were younger than 16.</p>
+        <h2 class="question-text" id="raadsr-q-text">Loading…</h2>
+        <div class="options-list" id="raadsr-options-list" role="radiogroup" aria-labelledby="raadsr-q-text"></div>
+      </div>
+    </div>
+
+    <footer class="quiz-footer">
+      <button id="raadsr-prev-btn" class="btn btn-back" disabled>← Back</button>
+      <button id="raadsr-next-btn" class="btn btn-next" disabled>Continue →</button>
+    </footer>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
