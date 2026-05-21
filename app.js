@@ -190,7 +190,7 @@ function buildPhase1() {
 function buildPhase2(adhd, asd) {
   const q2 = [];
   if (adhd) q2.push(...ASRS_B.map(q => ({ ...q, instrument: 'asrs_b', scale: FREQ5,   hint: 'Think about the past 6 months.' })));
-  if (asd)  q2.push(...CATQ.map(q   => ({ ...q, instrument: 'catq',   scale: LIKERT7, hint: 'Rate how much this applies to you in social situations (1 = Strongly disagree, 7 = Strongly agree).' })));
+  if (asd)  q2.push(...CATQ.map(q   => ({ ...q, instrument: 'catq',   scale: LIKERT7, hint: 'Rate how much this applies to you in social situations.' })));
   state.phase2Queue = q2;
 }
 
