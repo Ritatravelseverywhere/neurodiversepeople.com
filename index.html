@@ -3,9 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Free, validated neurodiversity screening for ADHD, Autism, and AuDHD. Evidence-based tools used by clinicians worldwide." />
-  <title>NeuroDiverse People — Are you neurodivergent?</title>
-  <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+
+  <!-- Primary SEO -->
+  <title>Am I Neurodivergent? Free ADHD & Autism Quiz | NeuroDiverse People</title>
+  <meta name="description" content="Take our free, clinically validated ADHD and autism screening quiz. Based on the WHO ASRS-v1.1, AQ-10, CAT-Q and RAADS-R — the same tools used by NHS clinicians. Get your results in 10–35 minutes." />
+  <meta name="keywords" content="am i neurodivergent, adhd quiz, adhd test online uk, autism quiz adults, do i have adhd, am i autistic, audhd quiz, neurodiversity test, adhd self assessment, autism screening tool" />
+  <link rel="canonical" href="https://neurodiversepeople.com/" />
+
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://neurodiversepeople.com/" />
+  <meta property="og:title"       content="Am I Neurodivergent? Free ADHD & Autism Quiz" />
+  <meta property="og:description" content="Free, clinically validated screening for ADHD, Autism and AuDHD. Based on WHO-validated tools. Get your NeuroProfile in 10–35 minutes." />
+  <meta property="og:site_name"   content="NeuroDiverse People" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Am I Neurodivergent? Free ADHD & Autism Quiz" />
+  <meta name="twitter:description" content="Free, clinically validated screening for ADHD, Autism and AuDHD. Based on WHO-validated tools." />
+
+  <!-- Structured data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NeuroDiverse People",
+    "url": "https://neurodiversepeople.com",
+    "description": "Free, clinically validated neurodiversity screening for ADHD, Autism, and AuDHD.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://neurodiversepeople.com/faq.html",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Structured data: FAQPage (shown as rich results in Google) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I know if I have ADHD?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common signs of ADHD in adults include difficulty sustaining attention, disorganisation, forgetfulness, impulsivity, and restlessness. The gold-standard screening tool is the ASRS-v1.1, developed by the WHO. You can take our free ADHD screening quiz to see if your traits are above the clinical referral threshold."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Am I autistic? What are the signs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Signs of autism in adults include differences in social communication, sensory sensitivities, preference for routine, and intense interests in specific topics. Many autistic adults — particularly women — go undiagnosed because they have learned to mask their traits. Our free autism screening quiz uses the clinically validated AQ-10 tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is AuDHD?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AuDHD refers to co-occurring ADHD and Autism Spectrum Condition. Research suggests that around 50–70% of autistic people also have ADHD. AuDHD presents unique challenges — ADHD impulsivity and need for novelty can directly conflict with autistic need for routine and predictability. It is increasingly recognised as a distinct presentation requiring specialist assessment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you have both ADHD and autism?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Until 2013, the DSM-IV prevented a dual diagnosis, but current guidance (DSM-5 and ICD-11) explicitly allows it. Studies show ADHD and autism co-occur in approximately 50–70% of cases. This is sometimes called AuDHD."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get diagnosed with ADHD in the UK?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can ask your GP for a referral to an adult ADHD assessment service. In England, if you wait more than 18 weeks for an NHS referral, you may be entitled to use 'Right to Choose' to access a different provider such as ADHD UK or Psychiatry UK. Alternatively, private ADHD assessments are available and typically cost £600–1,500."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this ADHD and autism quiz accurate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This quiz uses internationally validated clinical instruments — the same tools used by NHS and private clinicians. The ASRS-v1.1 has a sensitivity of around 68% and specificity of 99% for adult ADHD. The AQ-10 is recommended by NICE for autism screening. However, these are screening tools, not diagnostic instruments. A formal diagnosis requires evaluation by a qualified clinician."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2039083276334321" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -287,7 +378,10 @@
 <!-- Nav -->
 <nav>
   <a href="/" class="nav-logo">NeuroDiverse People</a>
-  <a href="quiz.html" class="nav-cta">Take the quiz →</a>
+  <div style="display:flex;align-items:center;gap:24px">
+    <a href="faq.html" style="font-size:0.88rem;font-weight:600;color:#4B5563;text-decoration:none">FAQ</a>
+    <a href="quiz.html" class="nav-cta">Take the quiz →</a>
+  </div>
 </nav>
 
 <!-- Hero -->
