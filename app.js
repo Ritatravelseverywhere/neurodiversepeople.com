@@ -449,10 +449,178 @@ function showResults() {
   renderInterpretation();
   renderNextSteps();
   renderRadar();
+  renderBooks();
 
   const { asrsa, aq10 } = state.scores;
   const showRADSR = (aq10.positive || asrsa.positive) && !state.raadsrDone;
   if (showRADSR) document.getElementById('raadsr-card').style.display = 'block';
+}
+
+/* ══ BOOKS ═══════════════════════════════════════════════════════
+   Affiliate links — replace AFFILIATE-TAG with your Amazon
+   Associates tracking ID (e.g. neurodiversepeople-21).
+   Sign up free at: affiliate-program.amazon.co.uk
+═══════════════════════════════════════════════════════════════ */
+
+const AFFILIATE_TAG = 'YOUR-TAG-21'; // ← replace this once you have your Amazon Associates ID
+
+const BOOKS = {
+
+  adhd: [
+    {
+      title:  'ADHD 2.0',
+      author: 'Edward Hallowell & John Ratey',
+      desc:   'The definitive modern guide to adult ADHD — updated with the latest neuroscience on focus, motivation, and the ADHD brain.',
+      asin:   '1529146631',
+      emoji:  '⚡',
+      colour: '#DBEAFE',
+    },
+    {
+      title:  'Scattered Minds',
+      author: 'Gabor Maté',
+      desc:   'A compassionate, trauma-informed exploration of ADHD — particularly powerful for adults who went undiagnosed in childhood.',
+      asin:   '1785042211',
+      emoji:  '🌊',
+      colour: '#E0F2FE',
+    },
+    {
+      title:  'A Radical Guide for Women with ADHD',
+      author: 'Sari Solden & Michelle Frank',
+      desc:   'Essential reading for women with ADHD — addresses the unique challenges of late diagnosis, shame, and reclaiming identity.',
+      asin:   '1684033578',
+      emoji:  '💜',
+      colour: '#F3E8FF',
+    },
+    {
+      title:  'The ADHD Advantage',
+      author: 'Dale Archer',
+      desc:   'Reframes ADHD as a set of powerful traits — hyperfocus, risk-tolerance, creativity — and shows how to harness them.',
+      asin:   '0143108115',
+      emoji:  '🚀',
+      colour: '#DCFCE7',
+    },
+  ],
+
+  autism: [
+    {
+      title:  'Unmasking Autism',
+      author: 'Devon Price',
+      desc:   'The essential guide for late-diagnosed autistic adults — explores masking, burnout, and what it means to live authentically.',
+      asin:   '1800961839',
+      emoji:  '🎭',
+      colour: '#FEF3C7',
+    },
+    {
+      title:  'NeuroTribes',
+      author: 'Steve Silberman',
+      desc:   'Award-winning history of autism — from pathology to neurodiversity. Changes how you understand yourself and the world.',
+      asin:   '1760113484',
+      emoji:  '🧠',
+      colour: '#DBEAFE',
+    },
+    {
+      title:  'Odd Girl Out',
+      author: 'Laura James',
+      desc:   'A British journalist\'s account of being diagnosed autistic at 45. Warm, honest, and deeply relatable for women.',
+      asin:   '1846044979',
+      emoji:  '📖',
+      colour: '#FCE7F3',
+    },
+    {
+      title:  'The Reason I Jump',
+      author: 'Naoki Higashida',
+      desc:   'Written by a 13-year-old nonspeaking autistic boy — a window into inner autistic experience that has changed countless lives.',
+      asin:   '1444776061',
+      emoji:  '✨',
+      colour: '#ECFDF5',
+    },
+  ],
+
+  general: [
+    {
+      title:  'Divergent Mind',
+      author: 'Jenara Nerenberg',
+      desc:   'Explores sensory processing, neurodiversity, and why so many women go undiagnosed with ADHD, autism, and related conditions.',
+      asin:   '0062876996',
+      emoji:  '🌿',
+      colour: '#ECFDF5',
+    },
+    {
+      title:  'The Power of Neurodiversity',
+      author: 'Thomas Armstrong',
+      desc:   'A compelling argument that neurological differences are natural human variations — not deficits — with strengths worth celebrating.',
+      asin:   '0738215244',
+      emoji:  '🌈',
+      colour: '#FEF3C7',
+    },
+    {
+      title:  'ADHD 2.0',
+      author: 'Edward Hallowell & John Ratey',
+      desc:   'The definitive modern guide to adult ADHD — updated with the latest neuroscience on focus, motivation, and the ADHD brain.',
+      asin:   '1529146631',
+      emoji:  '⚡',
+      colour: '#DBEAFE',
+    },
+    {
+      title:  'Unmasking Autism',
+      author: 'Devon Price',
+      desc:   'The essential guide for late-diagnosed autistic adults — explores masking, burnout, and what it means to live authentically.',
+      asin:   '1800961839',
+      emoji:  '🎭',
+      colour: '#FEF3C7',
+    },
+  ],
+
+};
+
+function renderBooks() {
+  const { asrsa, aq10 } = state.scores;
+  const adhdPos = asrsa.positive;
+  const asdPos  = aq10.positive;
+
+  // Pick the right book list
+  let books;
+  if (adhdPos && asdPos) {
+    // AuDHD: 2 from each list
+    books = [
+      ...BOOKS.adhd.slice(0, 2),
+      ...BOOKS.autism.slice(0, 2),
+    ];
+  } else if (adhdPos) {
+    books = BOOKS.adhd;
+  } else if (asdPos) {
+    books = BOOKS.autism;
+  } else {
+    books = BOOKS.general;
+  }
+
+  const grid = document.getElementById('books-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  books.forEach(book => {
+    const url = `https://www.amazon.co.uk/dp/${book.asin}/?tag=${AFFILIATE_TAG}`;
+
+    const card = document.createElement('a');
+    card.href   = url;
+    card.target = '_blank';
+    card.rel    = 'noopener sponsored';
+    card.className = 'book-card';
+
+    card.innerHTML = `
+      <div class="book-cover" style="background:${book.colour}">
+        <span class="book-emoji">${book.emoji}</span>
+      </div>
+      <div class="book-info">
+        <div class="book-title">${book.title}</div>
+        <div class="book-author">${book.author}</div>
+        <p class="book-desc">${book.desc}</p>
+        <span class="book-cta">View on Amazon →</span>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
 }
 
 /* ── Score blocks ──────────────────────────────────────────────── */
