@@ -1,6 +1,10 @@
 /* ─────────────────────────────────────────────────────────────────
    NeuroScreen · neurodiversepeople.com
-   Instruments: ASRS-v1.1 · AQ-10 · CAT-Q · RAADS-R (40-item)
+   Original questions © NeuroDiverse People. All questions are
+   original content written for this platform. Clinical domains
+   are based on published neurodevelopmental research. This tool
+   is not affiliated with or endorsed by the authors of any
+   published diagnostic instrument.
 ───────────────────────────────────────────────────────────────── */
 
 'use strict';
@@ -10,136 +14,153 @@
 const FREQ5   = ['Never', 'Rarely', 'Sometimes', 'Often', 'Very often'];
 const AGREE4  = ['Definitely agree', 'Slightly agree', 'Slightly disagree', 'Definitely disagree'];
 const LIKERT7 = ['Strongly disagree', 'Disagree', 'Slightly disagree', 'Neutral', 'Slightly agree', 'Agree', 'Strongly agree'];
-const RAADSR4 = ['True now and when I was young', 'True only now', 'True only when I was younger (under 16)', 'Never true'];
+const RAADSR4 = ['Yes — both now and when I was younger', 'Yes — but only recently', 'Yes — but only when I was younger (under 16)', 'No — this has never applied to me'];
 
-/* ══ QUESTION BANKS ══════════════════════════════════════════════ */
+/* ══ QUESTION BANKS ══════════════════════════════════════════════
+   All questions are original content © NeuroDiverse People.
+   Clinical domains assessed: attention regulation, hyperactivity,
+   impulsivity, social communication, sensory processing, social
+   camouflaging, and circumscribed interests.
+══════════════════════════════════════════════════════════════════ */
 
-/* ASRS-v1.1 Part A — 6 items (WHO Adult ADHD Self-Report Scale)
+/* ATTENTION & FOCUS — 6 questions
+   Assesses attention regulation and hyperactivity/impulsivity traits.
    Scale: FREQ5 (0–4)
-   Clinical threshold per item: Q1-4 → ≥2 (Sometimes), Q5-6 → ≥3 (Often)
-   Positive screen: 4+ items at or above their threshold                 */
+   Threshold: Q1–4 ≥ 2 (Sometimes+), Q5–6 ≥ 3 (Often+)
+   Positive screen: 4 or more items at or above threshold              */
 const ASRS_A = [
-  { id:'a1', text:'How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?',           sub:'inattention',   thr:2 },
-  { id:'a2', text:'How often do you have difficulty getting things in order when you have to do a task that requires organisation?',                sub:'inattention',   thr:2 },
-  { id:'a3', text:'How often do you have problems remembering appointments or obligations?',                                                        sub:'inattention',   thr:2 },
-  { id:'a4', text:'When you have a task that requires a lot of thought, how often do you avoid or delay getting started?',                          sub:'inattention',   thr:2 },
-  { id:'a5', text:'How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?',                          sub:'hyperactivity', thr:3 },
-  { id:'a6', text:'How often do you feel overly active and compelled to do things, as if you were driven by a motor?',                             sub:'hyperactivity', thr:3 },
+  { id:'a1', text:'Do you struggle to finish the final parts of a project once the interesting or challenging bits are done?',            sub:'inattention',   thr:2 },
+  { id:'a2', text:'Is it hard for you to get organised when you have a task with multiple steps that need doing in order?',               sub:'inattention',   thr:2 },
+  { id:'a3', text:'Do you forget about appointments, deadlines, or things you promised to do?',                                          sub:'inattention',   thr:2 },
+  { id:'a4', text:'When a task feels mentally demanding, do you put it off or avoid getting started?',                                   sub:'inattention',   thr:2 },
+  { id:'a5', text:'Do you find yourself fidgeting or needing to move around when you have to stay seated for a long time?',              sub:'hyperactivity', thr:3 },
+  { id:'a6', text:'Do you often feel internally restless or like you\'re running on overdrive, even when there\'s no obvious reason?',   sub:'hyperactivity', thr:3 },
 ];
 
-/* ASRS-v1.1 Part B — 12 items (triggered if Part A positive)
-   Scale: FREQ5 (0–4)                                                    */
+/* DAILY LIFE & ACTIVITY — 12 questions (triggered if Attention screen positive)
+   Deeper assessment of inattention, hyperactivity and impulsivity.
+   Scale: FREQ5 (0–4)                                                  */
 const ASRS_B = [
-  { id:'b1',  text:'How often do you make careless mistakes when you have to work on a boring or difficult project?',                              sub:'inattention'   },
-  { id:'b2',  text:'How often do you have difficulty keeping your attention when doing boring or repetitive work?',                                sub:'inattention'   },
-  { id:'b3',  text:'How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?',       sub:'inattention'   },
-  { id:'b4',  text:'How often do you misplace or have difficulty finding things at home or at work?',                                              sub:'inattention'   },
-  { id:'b5',  text:'How often are you distracted by activity or noise around you?',                                                               sub:'inattention'   },
-  { id:'b6',  text:'How often do you leave your seat in meetings or situations where you are expected to remain seated?',                          sub:'hyperactivity' },
-  { id:'b7',  text:'How often do you feel restless or fidgety?',                                                                                  sub:'hyperactivity' },
-  { id:'b8',  text:'How often do you have difficulty unwinding and relaxing when you have time to yourself?',                                     sub:'hyperactivity' },
-  { id:'b9',  text:'How often do you feel overly active and compelled to do things, as if you were driven by a motor?',                           sub:'hyperactivity' },
-  { id:'b10', text:'How often do you find yourself talking too much when you are in social situations?',                                           sub:'hyperactivity' },
-  { id:'b11', text:'When in a conversation, how often do you finish the sentences of the person you are talking to before they can finish them?', sub:'impulsivity'   },
-  { id:'b12', text:'How often do you have difficulty waiting your turn in situations where turn-taking is required?',                              sub:'impulsivity'   },
+  { id:'b1',  text:'Do you make careless errors when you\'re working on something dull or complicated?',                                sub:'inattention'   },
+  { id:'b2',  text:'Is it hard to keep your focus when a task is repetitive or unstimulating?',                                         sub:'inattention'   },
+  { id:'b3',  text:'Does your mind wander when someone is talking directly to you?',                                                    sub:'inattention'   },
+  { id:'b4',  text:'Do you regularly lose or misplace everyday items like your keys, phone, or wallet?',                                sub:'inattention'   },
+  { id:'b5',  text:'Does background noise or movement around you easily pull your attention away from what you\'re doing?',             sub:'inattention'   },
+  { id:'b6',  text:'Do you get up or move around in situations where you\'re expected to remain seated?',                               sub:'hyperactivity' },
+  { id:'b7',  text:'Do you feel physically restless or unable to settle, even when things are calm?',                                   sub:'hyperactivity' },
+  { id:'b8',  text:'Do you find it hard to properly switch off and relax when you have free time?',                                     sub:'hyperactivity' },
+  { id:'b9',  text:'Does your brain feel like it\'s always switched on, even when you\'d like it to slow down?',                        sub:'hyperactivity' },
+  { id:'b10', text:'Do people around you comment that you talk a lot in social situations?',                                            sub:'hyperactivity' },
+  { id:'b11', text:'Do you find yourself jumping in to finish other people\'s sentences before they\'ve had a chance to?',              sub:'impulsivity'   },
+  { id:'b12', text:'Is waiting your turn — in queues, conversations, or games — genuinely difficult for you?',                         sub:'impulsivity'   },
 ];
 
-/* AQ-10 — 10 items (Baron-Cohen et al.)
+/* SOCIAL & COMMUNICATION STYLE — 10 questions
+   Assesses social communication and perceptual processing differences.
    Scale: AGREE4 (0–3)
-   direction='autistic': agree (value 0 or 1) scores 1 point
-   direction='typical':  disagree (value 2 or 3) scores 1 point
-   Positive screen: ≥6                                                   */
+   dir='autistic': agree (value 0 or 1) scores 1 point
+   dir='typical':  disagree (value 2 or 3) scores 1 point
+   Positive screen: 6 or more                                          */
 const AQ10 = [
-  { id:'q1',  text:'I often notice small sounds when others do not.',                                                              dir:'autistic', sub:'sensory'       },
-  { id:'q2',  text:'I usually concentrate more on the whole picture, rather than the small details.',                             dir:'typical',  sub:'attention'     },
-  { id:'q3',  text:'I find it easy to do more than one thing at once.',                                                           dir:'typical',  sub:'attention'     },
-  { id:'q4',  text:'If there is an interruption, I can switch back to what I was doing very quickly.',                            dir:'typical',  sub:'attention'     },
-  { id:'q5',  text:"I find it easy to 'read between the lines' when someone is talking to me.",                                  dir:'typical',  sub:'communication' },
-  { id:'q6',  text:'I know how to tell if someone listening to me is getting bored.',                                             dir:'typical',  sub:'communication' },
-  { id:'q7',  text:"When I'm reading a story, I find it difficult to work out the characters' intentions.",                      dir:'autistic', sub:'imagination'   },
-  { id:'q8',  text:'I like to collect information about categories of things (e.g. types of car, types of bird, types of plant).', dir:'autistic', sub:'imagination'  },
-  { id:'q9',  text:'I find it easy to work out what someone is thinking or feeling just by looking at their face.',               dir:'typical',  sub:'communication' },
-  { id:'q10', text:"I find it difficult to work out people's intentions.",                                                        dir:'autistic', sub:'communication' },
+  { id:'q1',  text:'I pick up on sounds, smells, or textures that other people seem not to notice.',                                    dir:'autistic', sub:'sensory'       },
+  { id:'q2',  text:'When I\'m working on something, I naturally see the big picture rather than getting caught up in fine details.',    dir:'typical',  sub:'attention'     },
+  { id:'q3',  text:'I find it easy to juggle more than one thing at a time.',                                                           dir:'typical',  sub:'attention'     },
+  { id:'q4',  text:'If I get interrupted, I can easily pick up where I left off without losing my train of thought.',                   dir:'typical',  sub:'attention'     },
+  { id:'q5',  text:'When someone is speaking to me, I easily pick up on what they\'re hinting at without them spelling it out.',        dir:'typical',  sub:'communication' },
+  { id:'q6',  text:'I can usually tell when someone I\'m talking to is getting bored and wants to end the conversation.',              dir:'typical',  sub:'communication' },
+  { id:'q7',  text:'When reading a book or watching a film, I find it hard to figure out what the characters are really thinking or feeling.', dir:'autistic', sub:'imagination' },
+  { id:'q8',  text:'I really enjoy building up detailed knowledge about specific topics I\'m passionate about.',                        dir:'autistic', sub:'imagination'   },
+  { id:'q9',  text:'I can usually tell how someone is feeling just by looking at their face.',                                          dir:'typical',  sub:'communication' },
+  { id:'q10', text:'I find it difficult to figure out what people really want or mean in social situations.',                           dir:'autistic', sub:'communication' },
 ];
 
-/* CAT-Q — 25 items (Hull et al., 2019)
+/* SOCIAL STRATEGIES — 25 questions (triggered if Social screen positive)
+   Assesses social adaptation, learned coping, and identity masking.
    Scale: LIKERT7 (1–7, higher = more camouflaging)
-   Subscales: assimilation (7), compensation (8), masking (10)
-   Clinical mean: ~88 (range 77–100 for autistic adults)                 */
+   Subscales: learned adaptation (7), conscious strategies (8), identity concealment (10)
+   Threshold: ~88                                                       */
 const CATQ = [
-  { id:'c1',  text:'I have developed a set of rules to help me understand what is expected of me in social situations.',                          sub:'assimilation' },
-  { id:'c2',  text:'I observe other people closely in order to learn the unwritten rules of social interaction.',                                 sub:'assimilation' },
-  { id:'c3',  text:'Before I enter a social situation, I try to prepare myself by planning what I will say and how I will act.',                  sub:'assimilation' },
-  { id:'c4',  text:'I look to other people in unfamiliar social situations to know what I should do.',                                            sub:'assimilation' },
-  { id:'c5',  text:'I use phrases or sayings that I have heard other people use as a way of fitting in with them.',                              sub:'assimilation' },
-  { id:'c6',  text:'I research social rules and norms and use this information when talking with other people.',                                  sub:'assimilation' },
-  { id:'c7',  text:"I have developed a 'social performance' or 'mask' that I use in social situations.",                                          sub:'assimilation' },
-  { id:'c8',  text:'I use scripts or phrases that I have practised beforehand when talking to other people.',                                     sub:'compensation' },
-  { id:'c9',  text:'I work out in advance what to say in a conversation before I say it.',                                                        sub:'compensation' },
-  { id:'c10', text:"I have to work hard to understand other people's body language.",                                                             sub:'compensation' },
-  { id:'c11', text:'I need to work out the meaning of facial expressions when people are talking to me.',                                         sub:'compensation' },
-  { id:'c12', text:'I find it difficult to recognise when other people are joking or being sarcastic, and have to figure it out.',                sub:'compensation' },
-  { id:'c13', text:'I use conversation rules I have developed in order to communicate with other people.',                                        sub:'compensation' },
-  { id:'c14', text:"I have consciously learned the 'hidden rules' of social interaction.",                                                        sub:'compensation' },
-  { id:'c15', text:'I need to consciously interpret what people say in order to understand their intended meaning.',                              sub:'compensation' },
-  { id:'c16', text:'I adjust my body language or facial expressions so that I appear interested in the person I am talking with.',                sub:'masking'      },
-  { id:'c17', text:'I mimic the body language or speech style of the person I am talking to.',                                                    sub:'masking'      },
-  { id:'c18', text:'I copy the facial expressions of the people I am talking to.',                                                               sub:'masking'      },
-  { id:'c19', text:'I think carefully about how I appear to other people in social situations.',                                                   sub:'masking'      },
-  { id:'c20', text:'I suppress my natural urges or behaviours in social situations.',                                                             sub:'masking'      },
-  { id:'c21', text:'I pretend to feel more emotions than I actually do in social situations.',                                                    sub:'masking'      },
-  { id:'c22', text:'I hide my real feelings and opinions when talking with other people.',                                                        sub:'masking'      },
-  { id:'c23', text:'I hide aspects of myself that I think other people will find strange.',                                                       sub:'masking'      },
-  { id:'c24', text:'I behave very differently in different social situations, adapting to whoever I am with.',                                    sub:'masking'      },
-  { id:'c25', text:'In social situations, I feel like I am performing or putting on an act.',                                                     sub:'masking'      },
+  // Learned adaptation (7)
+  { id:'c1',  text:'I\'ve worked out my own personal set of rules for how to behave in social situations.',                             sub:'assimilation' },
+  { id:'c2',  text:'I carefully watch how other people interact so I can learn from them and copy what seems to work.',                 sub:'assimilation' },
+  { id:'c3',  text:'Before going into a social situation, I tend to plan out what I\'ll say and how I\'ll come across.',                sub:'assimilation' },
+  { id:'c4',  text:'In unfamiliar social situations, I look at what others are doing to figure out how I should act.',                  sub:'assimilation' },
+  { id:'c5',  text:'I borrow expressions, phrases, or mannerisms from other people to help me fit in.',                                sub:'assimilation' },
+  { id:'c6',  text:'I\'ve actively looked up or read about how to handle social situations and put that knowledge into practice.',      sub:'assimilation' },
+  { id:'c7',  text:'I have a version of myself — almost like a character — that I specifically use when I\'m around other people.',    sub:'assimilation' },
+  // Conscious strategies (8)
+  { id:'c8',  text:'I rely on phrases or lines I\'ve mentally rehearsed in advance when talking to people.',                           sub:'compensation' },
+  { id:'c9',  text:'Before speaking in a conversation, I tend to mentally work out what I\'m going to say first.',                     sub:'compensation' },
+  { id:'c10', text:'Understanding other people\'s body language takes real conscious effort on my part.',                              sub:'compensation' },
+  { id:'c11', text:'I have to actively decode what someone\'s facial expression means rather than it coming naturally.',               sub:'compensation' },
+  { id:'c12', text:'I often find it hard to tell when someone is being sarcastic or joking, and have to consciously work it out.',     sub:'compensation' },
+  { id:'c13', text:'I follow personal conversation rules I\'ve developed over time to get through social interactions.',               sub:'compensation' },
+  { id:'c14', text:'I\'ve deliberately taught myself the unspoken rules of how conversations and social interactions work.',           sub:'compensation' },
+  { id:'c15', text:'I often find myself mentally translating or interpreting what people say in order to understand what they mean.',   sub:'compensation' },
+  // Identity concealment (10)
+  { id:'c16', text:'I adjust my body language or expressions to seem more engaged in a conversation than I actually feel.',            sub:'masking'      },
+  { id:'c17', text:'I naturally start mirroring the gestures or way of speaking of whoever I\'m talking to.',                          sub:'masking'      },
+  { id:'c18', text:'I copy the facial expressions of people I\'m talking to so that I seem to be reacting the way I\'m expected to.', sub:'masking'      },
+  { id:'c19', text:'I\'m very aware of how I\'m coming across physically when I\'m around other people.',                             sub:'masking'      },
+  { id:'c20', text:'I hold back instinctive impulses or behaviours when I\'m in social settings.',                                     sub:'masking'      },
+  { id:'c21', text:'I display more emotion than I actually feel inside because it\'s what the situation seems to call for.',           sub:'masking'      },
+  { id:'c22', text:'I keep my true thoughts, feelings, or opinions to myself when I\'m with other people.',                            sub:'masking'      },
+  { id:'c23', text:'I hide parts of myself that I think others would find odd or off-putting.',                                        sub:'masking'      },
+  { id:'c24', text:'How I act changes quite significantly depending on who I\'m with.',                                                sub:'masking'      },
+  { id:'c25', text:'Being in social situations often feels like giving a performance rather than just being myself.',                   sub:'masking'      },
 ];
 
-/* RAADS-R condensed — 40 representative items (Ritvo et al., 2011)
-   Scale: RAADSR4 (0–3, scored from most autistic to never true)
-   reverse=true items are scored 3-v instead of v
+/* LIFE EXPERIENCES — 40 questions (optional extended assessment)
+   Original questions assessing social connection, language, sensory
+   experience, and routine-based thinking across the lifespan.
+   Scale: RAADSR4 (0–3)  reverse=true items scored 3-v
    Subscales: social (12), language (7), sensory (12), circumscribed (9)
-   Clinical cutoff: ≥32 (scaled from full 80-item cutoff of 65)          */
+   Threshold: ≥32                                                       */
 const RAADSR = [
-  { id:'r1',  text:'I am a sympathetic person.',                                                                                  sub:'social',        rev:true  },
-  { id:'r2',  text:'I often use words and phrases from movies or television in my own conversations.',                            sub:'social',        rev:false },
-  { id:'r3',  text:'I am often told that I talk too much about certain topics.',                                                   sub:'social',        rev:false },
-  { id:'r4',  text:'I do not know how to connect with people.',                                                                   sub:'social',        rev:false },
-  { id:'r5',  text:'It is easy for me to ask for other people\'s help.',                                                          sub:'social',        rev:true  },
-  { id:'r6',  text:'I always have difficulty seeing things from another person\'s perspective.',                                  sub:'social',        rev:false },
-  { id:'r7',  text:'I would rather talk to myself than with others.',                                                             sub:'social',        rev:false },
-  { id:'r8',  text:'I am comfortable with unplanned changes to social events.',                                                   sub:'social',        rev:true  },
-  { id:'r9',  text:'I do not understand why some people get embarrassed.',                                                        sub:'social',        rev:false },
-  { id:'r10', text:'Socialising is harder for me than it seems to be for most others.',                                           sub:'social',        rev:false },
-  { id:'r11', text:'I have been told I have an unusual voice (e.g. monotone, flat, or overly formal).',                          sub:'social',        rev:false },
-  { id:'r12', text:'I focus on details rather than the overall idea.',                                                            sub:'social',        rev:false },
-  { id:'r13', text:'I take things very literally, so I often miss what people are really trying to say.',                        sub:'language',      rev:false },
-  { id:'r14', text:'I have a very good memory for facts and details.',                                                            sub:'language',      rev:false },
-  { id:'r15', text:'I sometimes say things that other people find rude, but I am not aware I have done this.',                   sub:'language',      rev:false },
-  { id:'r16', text:'People often tell me I repeat myself.',                                                                       sub:'language',      rev:false },
-  { id:'r17', text:'I notice patterns in things all the time.',                                                                   sub:'language',      rev:false },
-  { id:'r18', text:'I find it hard to start or carry on a conversation.',                                                         sub:'language',      rev:false },
-  { id:'r19', text:'I easily understand abstract ideas and metaphors.',                                                           sub:'language',      rev:true  },
-  { id:'r20', text:'I am overwhelmed by sensory stimuli that do not bother other people (e.g. strong smells, bright lights, loud sounds).', sub:'sensory', rev:false },
-  { id:'r21', text:'I have extreme sensitivity to textures of fabrics or foods.',                                                 sub:'sensory',       rev:false },
-  { id:'r22', text:'I find it difficult to tolerate unexpected or uninvited touch from people.',                                  sub:'sensory',       rev:false },
-  { id:'r23', text:'Certain everyday sounds are very distressing or painful to me.',                                              sub:'sensory',       rev:false },
-  { id:'r24', text:'I notice details that others do not notice.',                                                                 sub:'sensory',       rev:false },
-  { id:'r25', text:'When I look at something, I find it hard to take in the whole picture at once.',                             sub:'sensory',       rev:false },
-  { id:'r26', text:'I have very strong reactions to changes in temperature.',                                                     sub:'sensory',       rev:false },
-  { id:'r27', text:'I often rock or sway my body when I am sitting.',                                                             sub:'sensory',       rev:false },
-  { id:'r28', text:'I notice when people\'s faces are even slightly asymmetrical.',                                               sub:'sensory',       rev:false },
-  { id:'r29', text:'I have unusual body movements (such as hand-flapping, spinning, or rocking).',                               sub:'sensory',       rev:false },
-  { id:'r30', text:'I can handle large amounts of pain or physical discomfort without reaction.',                                 sub:'sensory',       rev:false },
-  { id:'r31', text:'I am bothered by uncomfortable clothing textures or seams in socks.',                                        sub:'sensory',       rev:false },
-  { id:'r32', text:'I have a very strong interest in a few specific topics and know a great deal about them.',                    sub:'circumscribed', rev:false },
-  { id:'r33', text:'I am happiest when I am following my own routine.',                                                           sub:'circumscribed', rev:false },
-  { id:'r34', text:'I strongly prefer things to stay the same and get upset when they change.',                                   sub:'circumscribed', rev:false },
-  { id:'r35', text:'I have to follow a set routine when doing everyday things.',                                                  sub:'circumscribed', rev:false },
-  { id:'r36', text:'I collect things of specific interest and keep them in a precise order.',                                     sub:'circumscribed', rev:false },
-  { id:'r37', text:'I notice when objects in my environment have been moved or rearranged.',                                      sub:'circumscribed', rev:false },
-  { id:'r38', text:'I find it difficult to adapt to changes in daily routine.',                                                   sub:'circumscribed', rev:false },
-  { id:'r39', text:'I have always had a special interest that few others share.',                                                 sub:'circumscribed', rev:false },
-  { id:'r40', text:'I become very upset if I cannot carry out my usual routines.',                                                sub:'circumscribed', rev:false },
+  // Social connection (12)
+  { id:'r1',  text:'I find it easy to tune into how other people are feeling.',                                                       sub:'social',        rev:true  },
+  { id:'r2',  text:'I often drop quotes or lines from TV shows, films, or books into everyday conversation.',                        sub:'social',        rev:false },
+  { id:'r3',  text:'People have told me I go on too long about subjects I find interesting.',                                         sub:'social',        rev:false },
+  { id:'r4',  text:'Forming genuine connections with other people feels out of reach for me.',                                        sub:'social',        rev:false },
+  { id:'r5',  text:'Reaching out and asking others for help comes naturally to me.',                                                  sub:'social',        rev:true  },
+  { id:'r6',  text:'I consistently struggle to see things from another person\'s point of view.',                                    sub:'social',        rev:false },
+  { id:'r7',  text:'I often prefer my own company — or even talking to myself — over being with other people.',                      sub:'social',        rev:false },
+  { id:'r8',  text:'I\'m fine when social plans change unexpectedly at the last minute.',                                             sub:'social',        rev:true  },
+  { id:'r9',  text:'I genuinely don\'t understand why certain situations cause people to feel embarrassed.',                          sub:'social',        rev:false },
+  { id:'r10', text:'Navigating social situations feels harder for me than it appears to be for most people.',                        sub:'social',        rev:false },
+  { id:'r11', text:'People have commented that my voice sounds flat, robotic, overly formal, or unusual in some way.',               sub:'social',        rev:false },
+  { id:'r12', text:'I tend to zoom in on specific details rather than taking in the overall picture.',                               sub:'social',        rev:false },
+  // Language & thinking (7)
+  { id:'r13', text:'I tend to take things at face value and sometimes miss the real meaning behind what someone says.',              sub:'language',      rev:false },
+  { id:'r14', text:'My memory for facts, figures, and specific details is unusually strong.',                                         sub:'language',      rev:false },
+  { id:'r15', text:'I\'ve said things that others found rude or hurtful, though I genuinely didn\'t mean to.',                       sub:'language',      rev:false },
+  { id:'r16', text:'I\'ve been told that I repeat myself or circle back to the same topics.',                                         sub:'language',      rev:false },
+  { id:'r17', text:'I automatically spot patterns in things — numbers, sequences, words, structures.',                               sub:'language',      rev:false },
+  { id:'r18', text:'Starting a conversation — or keeping one going — is something I genuinely find hard.',                           sub:'language',      rev:false },
+  { id:'r19', text:'I find figures of speech, metaphors, and abstract concepts easy to understand.',                                 sub:'language',      rev:true  },
+  // Sensory experience (12)
+  { id:'r20', text:'Sensory things that barely register for others — certain smells, lighting, noise levels — can genuinely overwhelm me.', sub:'sensory', rev:false },
+  { id:'r21', text:'Certain food textures or fabric materials cause me real physical discomfort.',                                    sub:'sensory',       rev:false },
+  { id:'r22', text:'Being touched unexpectedly, even lightly, is something I find hard to handle.',                                  sub:'sensory',       rev:false },
+  { id:'r23', text:'Some everyday sounds are physically uncomfortable or even painful for me.',                                      sub:'sensory',       rev:false },
+  { id:'r24', text:'I tend to notice small details in my surroundings that most people don\'t pick up on.',                          sub:'sensory',       rev:false },
+  { id:'r25', text:'When I look at something, I process it in parts rather than taking in the whole thing at once.',                 sub:'sensory',       rev:false },
+  { id:'r26', text:'My body reacts strongly to temperature changes that other people barely seem to notice.',                        sub:'sensory',       rev:false },
+  { id:'r27', text:'I rock, sway, or make repetitive physical movements when I\'m sitting still or concentrating.',                  sub:'sensory',       rev:false },
+  { id:'r28', text:'I notice tiny asymmetries or irregularities in things — faces, objects, rooms — that others walk right past.',   sub:'sensory',       rev:false },
+  { id:'r29', text:'I have repeated body movements or habits that others have pointed out as unusual.',                              sub:'sensory',       rev:false },
+  { id:'r30', text:'I can put up with significant physical pain or discomfort without appearing to react much.',                     sub:'sensory',       rev:false },
+  { id:'r31', text:'I find certain items of clothing uncomfortable in a way that\'s hard to ignore — like tight waistbands, labels, or sock seams.', sub:'sensory', rev:false },
+  // Routine & focused interests (9)
+  { id:'r32', text:'I have one or more areas of deep, specific interest where my knowledge goes far beyond that of most people.',    sub:'circumscribed', rev:false },
+  { id:'r33', text:'Sticking to my own routine makes me feel calm and in control.',                                                  sub:'circumscribed', rev:false },
+  { id:'r34', text:'Changes to my plans or environment genuinely upset me, even when the change seems minor.',                       sub:'circumscribed', rev:false },
+  { id:'r35', text:'I need to carry out everyday tasks in a specific way — if I can\'t, it bothers me.',                             sub:'circumscribed', rev:false },
+  { id:'r36', text:'I tend to collect, organise, or arrange things with a particular precision or system.',                          sub:'circumscribed', rev:false },
+  { id:'r37', text:'I notice straight away when something in my environment has been moved or changed, even slightly.',              sub:'circumscribed', rev:false },
+  { id:'r38', text:'Changing my daily routine — even small elements of it — feels genuinely difficult.',                             sub:'circumscribed', rev:false },
+  { id:'r39', text:'I\'ve always had a very specific passion or area of focus that most people around me don\'t share.',             sub:'circumscribed', rev:false },
+  { id:'r40', text:'If I\'m prevented from following my usual routine, I find it very hard to cope.',                                sub:'circumscribed', rev:false },
 ];
 
 /* ══ STATE ═══════════════════════════════════════════════════════ */
@@ -257,17 +278,17 @@ function currentQueue() {
 /* ══ QUESTION RENDERING ══════════════════════════════════════════ */
 
 const INSTRUMENT_LABELS = {
-  asrs_a: 'ASRS-v1.1 Part A',
-  asrs_b: 'ASRS-v1.1 Part B',
-  aq10:   'AQ-10',
-  catq:   'CAT-Q',
+  asrs_a: 'Attention & Focus',
+  asrs_b: 'Daily Life & Activity',
+  aq10:   'Social & Communication Style',
+  catq:   'Social Strategies',
 };
 
 const PHASE_LABELS = {
-  asrs_a: 'Phase 1 · Attention Screen',
-  aq10:   'Phase 1 · Autism Screen',
-  asrs_b: 'Phase 2 · ADHD Deep Dive',
-  catq:   'Phase 2 · Camouflaging',
+  asrs_a: 'Section 1 · Attention & Focus',
+  aq10:   'Section 1 · Social & Communication',
+  asrs_b: 'Section 2 · Daily Life & Activity',
+  catq:   'Section 2 · Social Strategies',
 };
 
 function renderQuestion() {
