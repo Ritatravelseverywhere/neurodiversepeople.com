@@ -420,9 +420,9 @@ function runAnalysis() {
 
   // Build analysis steps
   const steps = [
-    { label: `ASRS-v1.1 Part A: ${asrsa.met}/6 items above threshold${asrsa.positive ? ' — positive' : ''}`, done: true },
-    { label: `AQ-10: ${aq10.score}/10${aq10.positive ? ' — positive' : ''}`,                                  done: true },
-    { label: getPathLabel(state.path),                                                                         done: true },
+    { label: `Attention & Focus: ${asrsa.met}/6 items above threshold${asrsa.positive ? ' — traits indicated' : ''}`, done: true },
+    { label: `Social & Communication: ${aq10.score}/10${aq10.positive ? ' — traits indicated' : ''}`,                  done: true },
+    { label: getPathLabel(state.path),                                                                                   done: true },
     { label: state.phase2Queue.length > 0 ? `Loading ${state.phase2Queue.length} follow-up questions…` : 'Preparing your results…', done: false },
   ];
 
@@ -454,10 +454,10 @@ function runAnalysis() {
 
 function getPathLabel(path) {
   return {
-    adhd:  'Adaptive path: ADHD — loading ASRS-v1.1 Part B',
-    asd:   'Adaptive path: Autism — loading CAT-Q',
-    audhd: 'Adaptive path: AuDHD — loading ASRS-v1.1 Part B + CAT-Q',
-    sub:   'Both screens below threshold — preparing summary',
+    adhd:  'Your path: ADHD traits indicated — loading follow-up questions',
+    asd:   'Your path: Autism traits indicated — loading follow-up questions',
+    audhd: 'Your path: Both indicated — loading follow-up questions',
+    sub:   'Both sections below threshold — preparing your summary',
   }[path] || '';
 }
 
@@ -684,46 +684,46 @@ function renderScoreBlocks() {
 
   // ADHD
   addScoreBlock(container, {
-    name:   'ADHD — ASRS-v1.1',
-    badge:  asrsa.positive ? 'Positive screen' : 'Below threshold',
+    name:   'Attention & Focus — ADHD Traits',
+    badge:  asrsa.positive ? 'Traits indicated' : 'Below threshold',
     level:  lvl(asrsa.met, 4),
     score:  asrsa.met,
     thr:    4,
     max:    6,
     unit:   '/ 6 items',
-    detail: `${asrsa.met} of 6 Part A items reached clinical frequency threshold (4+ = positive screen).${asrsb ? ` Part B inattention: ${asrsb.inatt}/20 · Hyperactivity: ${asrsb.hyper}/20` : ''}`,
+    detail: `${asrsa.met} of 6 items reached the frequency threshold (4+ = traits indicated).${asrsb ? ` Inattention score: ${asrsb.inatt}/20 · Hyperactivity score: ${asrsb.hyper}/20` : ''}`,
   });
 
-  // Autism AQ-10
+  // Autism Social
   addScoreBlock(container, {
-    name:   'Autism — AQ-10',
-    badge:  aq10.positive ? 'Positive screen' : 'Below threshold',
+    name:   'Social & Communication — Autism Traits',
+    badge:  aq10.positive ? 'Traits indicated' : 'Below threshold',
     level:  lvl(aq10.score, 6),
     score:  aq10.score,
     thr:    6,
     max:    10,
     unit:   '/ 10',
-    detail: `Score of ${aq10.score}/10. Clinical referral threshold: 6 or above.`,
+    detail: `${aq10.score} of 10 items aligned with autistic trait patterns. Threshold for further assessment: 6 or above.`,
   });
 
-  // CAT-Q
+  // Social Strategies
   if (catq) {
     addScoreBlock(container, {
-      name:   'Camouflaging — CAT-Q',
-      badge:  catq.positive ? 'High camouflaging' : 'Below threshold',
+      name:   'Social Strategies — Masking & Camouflaging',
+      badge:  catq.positive ? 'High masking' : 'Below threshold',
       level:  lvl(catq.total, catq.thr),
       score:  catq.total,
       thr:    catq.thr,
       max:    175,
       unit:   '/ 175',
-      detail: `Assimilation ${catq.assim}/49 · Compensation ${catq.comp}/56 · Masking ${catq.mask}/70. Clinical mean threshold: ~88.`,
+      detail: `Learned adaptation: ${catq.assim}/49 · Conscious strategies: ${catq.comp}/56 · Identity concealment: ${catq.mask}/70. Threshold: ~88.`,
     });
   }
 
-  // RAADS-R
+  // Life Experiences
   if (raadsr) {
     addScoreBlock(container, {
-      name:   'Autism — RAADS-R (condensed)',
+      name:   'Life Experiences — Extended Assessment',
       badge:  raadsr.positive ? 'Above threshold' : 'Below threshold',
       level:  lvl(raadsr.total, raadsr.thr),
       score:  raadsr.total,
@@ -865,31 +865,31 @@ function renderInterpretation() {
 
   if (adhdPos && asdPos) {
     byLine.innerHTML = '<span class="result-badge">AuDHD profile indicated</span>';
-    html += `<p><strong>Your responses are consistent with both ADHD and Autism Spectrum Condition (AuDHD).</strong> You reached the clinical referral threshold on the ASRS-v1.1 Part A (${asrsa.met}/6 items) and the AQ-10 (${aq10.score}/10). AuDHD — co-occurring ADHD and autism — is increasingly recognised as a distinct presentation requiring specialist assessment.</p>`;
+    html += `<p><strong>Your responses are consistent with both ADHD and Autism Spectrum Condition (AuDHD).</strong> You scored above the referral threshold on both the Attention & Focus section (${asrsa.met}/6 items) and the Social & Communication section (${aq10.score}/10). AuDHD — co-occurring ADHD and autism — is increasingly recognised as a distinct presentation requiring specialist assessment.</p>`;
     if (catq && catq.positive) {
-      html += `<p>Your CAT-Q score of <strong>${catq.total}/175</strong> is above the clinical threshold, suggesting substantial camouflaging or masking. This is particularly common in women and people who received no childhood support. Masking can contribute to exhaustion, anxiety, and late diagnosis.</p>`;
+      html += `<p>Your Social Strategies score of <strong>${catq.total}/175</strong> is above the threshold, suggesting substantial masking or camouflaging. This is particularly common in women and people who received no childhood support. Masking can contribute to exhaustion, anxiety, and late diagnosis.</p>`;
     }
-    html += `<p>When seeking a referral, explicitly mention both ADHD and autism — many services assess only one unless both are requested. Your GP can initiate an NHS referral, or you may be eligible to self-refer to specific services.</p>`;
+    html += `<p>When seeking a referral, explicitly mention both ADHD and autism — many services assess only one unless both are raised. Your GP can initiate an NHS referral, or you may be eligible to self-refer to specific services.</p>`;
 
   } else if (adhdPos) {
-    byLine.textContent = 'ADHD traits above clinical threshold';
-    html += `<p><strong>Your responses are consistent with ADHD traits above the clinical referral threshold.</strong> You endorsed ${asrsa.met} of 6 Part A items at or above the clinical frequency level (4 or more required for a positive screen).</p>`;
-    html += `<p>The ASRS-v1.1 has strong published validity for detecting adult ADHD. A positive Part A screen is the starting point for a formal clinical assessment by a psychiatrist or specialist psychologist.</p>`;
+    byLine.textContent = 'ADHD traits above threshold';
+    html += `<p><strong>Your responses suggest ADHD traits above the clinical referral threshold.</strong> You endorsed ${asrsa.met} of 6 Attention & Focus items at or above the frequency threshold (4 or more required).</p>`;
+    html += `<p>Research-based screening tools for attention and activity traits have strong validity for identifying adults who would benefit from formal assessment. This is the starting point for a clinical evaluation by a psychiatrist or specialist psychologist.</p>`;
 
   } else if (asdPos) {
-    byLine.textContent = 'Autism traits above clinical threshold';
-    html += `<p><strong>Your AQ-10 score of ${aq10.score}/10 is above the clinical referral threshold of 6.</strong> The AQ-10 indicates the presence of autistic traits at a level that warrants further evaluation.</p>`;
+    byLine.textContent = 'Autism traits above threshold';
+    html += `<p><strong>Your Social & Communication score of ${aq10.score}/10 is above the referral threshold of 6.</strong> This indicates autistic traits at a level that warrants further evaluation by a specialist.</p>`;
     if (catq && catq.positive) {
-      html += `<p>Your CAT-Q score of <strong>${catq.total}/175</strong> suggests you use significant effort to mask or camouflage autistic traits. High masking scores are associated with late diagnosis, burnout, and anxiety — and may mean your presentation appears more neurotypical to others than it feels internally.</p>`;
+      html += `<p>Your Social Strategies score of <strong>${catq.total}/175</strong> suggests you use significant effort to mask or camouflage your natural traits. High masking is associated with late diagnosis, burnout, and anxiety — and may mean your presentation appears more neurotypical to others than it feels internally.</p>`;
     }
     if (raadsr) {
       const top = topSub(raadsr);
-      html += `<p>The RAADS-R (condensed) scored <strong>${raadsr.total}/120</strong> — ${raadsr.positive ? 'above' : 'below'} the threshold of 32. Your highest subscale was <strong>${top}</strong>.</p>`;
+      html += `<p>Your Life Experiences assessment scored <strong>${raadsr.total}/120</strong> — ${raadsr.positive ? 'above' : 'below'} the threshold of 32. Your highest area was <strong>${top}</strong>.</p>`;
     }
 
   } else {
-    byLine.textContent = 'Both screens below clinical threshold';
-    html += `<p>Your responses did not reach the clinical referral threshold on either the ASRS-v1.1 Part A (${asrsa.met}/6 items) or the AQ-10 (${aq10.score}/10). This means your self-reported traits are within the range typically seen in the general adult population on these instruments.</p>`;
+    byLine.textContent = 'Both sections below threshold';
+    html += `<p>Your responses did not reach the referral threshold on either the Attention & Focus section (${asrsa.met}/6 items) or the Social & Communication section (${aq10.score}/10). This suggests your self-reported traits are within the range typically seen in the general adult population.</p>`;
     html += `<p>These results do <em>not</em> rule out neurodivergence. Masking, burnout, and the specific framing of questions can all affect scores. If you have persistent concerns, a conversation with your GP is still worthwhile.</p>`;
   }
 
@@ -924,7 +924,7 @@ function renderNextSteps() {
     });
     steps.push({
       title: 'Book a GP appointment',
-      desc:  'Ask specifically for a referral to an adult neurodevelopmental assessment service. Mention the screening tools used here (ASRS-v1.1 and AQ-10) and your scores.',
+      desc:  'Ask specifically for a referral to an adult neurodevelopmental assessment service. Share your results from this screening — your GP can use them as a starting point for a referral.',
     });
     if (adhdPos) {
       steps.push({
