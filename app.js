@@ -462,7 +462,7 @@ function showResults() {
    Sign up free at: affiliate-program.amazon.co.uk
 ═══════════════════════════════════════════════════════════════ */
 
-const AFFILIATE_TAG = 'YOUR-TAG-21'; // ← replace this once you have your Amazon Associates ID
+const AFFILIATE_TAG = 'neurodiversep-21';
 
 const BOOKS = {
 
