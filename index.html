@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="logo-icon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0H1E1VN9YX"></script>
@@ -45,6 +47,19 @@
       "target": "https://neurodiversepeople.com/faq.html",
       "query-input": "required name=search_term_string"
     }
+  }
+  </script>
+
+  <!-- Organisation schema — tells Google our logo for search results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NeuroDiverse People",
+    "url": "https://neurodiversepeople.com",
+    "logo": "https://neurodiversepeople.com/logo.svg",
+    "description": "Free neurodiversity screening for ADHD, Autism, and AuDHD.",
+    "sameAs": ["https://neurodiversepeople.com"]
   }
   </script>
 
@@ -477,7 +492,7 @@
       <div class="step-card">
         <div class="step-num">4</div>
         <div class="step-title">Your NeuroProfile</div>
-        <p class="step-desc">You receive a visual profile with scores, clinical threshold comparisons, and personalised next-step recommendations.</p>
+        <p class="step-desc">You receive a visual profile with scores, research-based threshold comparisons, and personalised next-step recommendations.</p>
       </div>
     </div>
   </div>
