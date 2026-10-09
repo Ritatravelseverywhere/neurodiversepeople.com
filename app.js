@@ -1091,3 +1091,141 @@ document.addEventListener('keydown', e => {
     }
   });
 })();
+
+/* ══ SHARE / VIRAL LOOP ═══════════════════════════════════════════
+   Drives word-of-mouth traffic and branded searches. One-tap social
+   shares promote the free test only (no personal health data). The
+   downloadable image card is user-initiated, so it can carry the
+   person's own profile label with their consent.
+═══════════════════════════════════════════════════════════════ */
+;(function share() {
+  const SHARE_URL  = 'https://neurodiversepeople.com/quiz.html';
+  const SHARE_TEXT = 'I just did this free ADHD, autism & AuDHD screening (the NeuroProfile) — 10 mins, no sign-up:';
+  const enc = encodeURIComponent;
+
+  const track = (method) => { try { gtag('event', 'share', { method }); } catch (e) {} };
+
+  // One-tap social links (generic — no result disclosed)
+  const wa = document.getElementById('sh-whatsapp');
+  const x  = document.getElementById('sh-x');
+  const fb = document.getElementById('sh-fb');
+  if (wa) wa.href = `https://wa.me/?text=${enc(SHARE_TEXT + ' ' + SHARE_URL)}`;
+  if (x)  x.href  = `https://twitter.com/intent/tweet?text=${enc(SHARE_TEXT)}&url=${enc(SHARE_URL)}`;
+  if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${enc(SHARE_URL)}`;
+  if (wa) wa.addEventListener('click', () => track('whatsapp'));
+  if (x)  x.addEventListener('click',  () => track('x'));
+  if (fb) fb.addEventListener('click', () => track('facebook'));
+
+  // Native share (mobile) — promotes the test, no result text
+  const nativeBtn = document.getElementById('sh-native');
+  if (nativeBtn && navigator.share) {
+    nativeBtn.style.display = 'inline-flex';
+    nativeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.share({ title: 'NeuroDiverse People', text: SHARE_TEXT, url: SHARE_URL });
+        track('native');
+      } catch (e) {}
+    });
+  }
+
+  // Copy link
+  const copyBtn = document.getElementById('sh-copy');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(SHARE_URL);
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = 'Copied ✓';
+        copyBtn.classList.add('sh-copied');
+        setTimeout(() => { copyBtn.textContent = orig; copyBtn.classList.remove('sh-copied'); }, 1800);
+        track('copy');
+      } catch (e) {}
+    });
+  }
+
+  // Branded result card (user-initiated download → may carry their label)
+  function drawCard() {
+    const canvas = document.getElementById('sh-canvas');
+    if (!canvas) return null;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    // Background gradient (brand blue → purple)
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#1E3A8A');
+    g.addColorStop(1, '#7C3AED');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.textAlign = 'center';
+
+    // Brand
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.font = '700 44px Inter, sans-serif';
+    ctx.fillText('NeuroDiverse People', W / 2, 150);
+
+    // Eyebrow
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '600 34px Inter, sans-serif';
+    ctx.fillText('MY NEUROPROFILE', W / 2, 430);
+
+    // Result label (from the already-displayed, non-clinical badge)
+    let label = 'Free ADHD, autism & AuDHD screening';
+    const by = document.getElementById('results-by');
+    if (by && by.textContent.trim()) label = by.textContent.trim();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '800 64px Inter, sans-serif';
+    wrapText(ctx, label, W / 2, 540, W - 200, 78);
+
+    // CTA
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.font = '700 40px Inter, sans-serif';
+    ctx.fillText('Take the free test →', W / 2, 900);
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.font = '500 34px Inter, sans-serif';
+    ctx.fillText('neurodiversepeople.com', W / 2, 960);
+
+    return canvas;
+  }
+
+  function wrapText(ctx, text, x, y, maxW, lh) {
+    const words = text.split(' ');
+    let line = '', lines = [];
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    const startY = y - ((lines.length - 1) * lh) / 2;
+    lines.forEach((ln, i) => ctx.fillText(ln, x, startY + i * lh));
+  }
+
+  const dlBtn = document.getElementById('sh-download');
+  if (dlBtn) {
+    dlBtn.addEventListener('click', async () => {
+      const canvas = drawCard();
+      if (!canvas) return;
+      track('download_card');
+      // Try native share of the image on supported mobile browsers
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+        const file = new File([blob], 'my-neuroprofile.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], text: SHARE_TEXT + ' ' + SHARE_URL });
+            return;
+          } catch (e) { /* fall through to download */ }
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'my-neuroprofile.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    });
+  }
+})();

@@ -50,6 +50,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .share-card .share-sub { color:#4B5563; font-size:0.9rem; line-height:1.6; margin:6px 0 16px; }
+    .share-btn-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+    .sh-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:11px 18px; border-radius:10px; font-size:0.9rem; font-weight:700; text-decoration:none; cursor:pointer; border:none; transition:transform .12s, opacity .12s; font-family:inherit; }
+    .sh-btn:hover { transform:translateY(-1px); opacity:0.92; }
+    .sh-primary { background:linear-gradient(135deg,#2563EB,#7C3AED); color:#fff; }
+    .sh-wa { background:#25D366; color:#fff; }
+    .sh-x  { background:#111827; color:#fff; }
+    .sh-fb { background:#1877F2; color:#fff; }
+    .sh-copy { background:#EFF6FF; color:#1D4ED8; }
+    .sh-outline { background:#fff; color:#1D4ED8; border:1.5px solid #BFDBFE; }
+    .share-card-gen { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; padding-top:14px; border-top:1px solid #F3F4F6; }
+    .share-gen-note { font-size:0.78rem; color:#9CA3AF; flex:1; min-width:180px; }
+    .sh-copied { background:#059669 !important; color:#fff !important; }
+  </style>
   <script src="cookie-consent.js" defer></script>
 </head>
 <body>
@@ -238,6 +253,24 @@
         <span class="affiliate-note">Affiliate links — we may earn a small commission at no cost to you</span>
       </div>
       <div class="books-grid" id="books-grid"></div>
+    </div>
+
+    <!-- Share -->
+    <div class="result-card share-card" id="share-card">
+      <h3>Share the free test</h3>
+      <p class="share-sub">Most people who could benefit never get screened. A quick share could be the nudge someone needs — no result of yours is posted unless you download your card below.</p>
+      <div class="share-btn-row">
+        <button id="sh-native" class="sh-btn sh-primary" style="display:none">Share…</button>
+        <a id="sh-whatsapp" class="sh-btn sh-wa" target="_blank" rel="noopener">WhatsApp</a>
+        <a id="sh-x" class="sh-btn sh-x" target="_blank" rel="noopener">X / Twitter</a>
+        <a id="sh-fb" class="sh-btn sh-fb" target="_blank" rel="noopener">Facebook</a>
+        <button id="sh-copy" class="sh-btn sh-copy">Copy link</button>
+      </div>
+      <div class="share-card-gen">
+        <button id="sh-download" class="sh-btn sh-outline">↓ Download my result card (image)</button>
+        <span class="share-gen-note">A branded image with your profile — for Instagram/TikTok stories, if you choose to share it.</span>
+      </div>
+      <canvas id="sh-canvas" width="1080" height="1080" style="display:none"></canvas>
     </div>
 
     <div class="results-actions">
