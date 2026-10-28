@@ -163,8 +163,39 @@
 </div>
 
 <div class="page">
-  <div class="authbar" id="authbar"><!-- rendered by JS --></div>
+  <!-- LAUNCHING-SOON PLACEHOLDER START — remove this block and uncomment the authbar/view + scripts below to go live -->
+  <div class="card" style="text-align:center;padding:40px 26px;">
+    <div style="font-size:2.4rem;margin-bottom:8px;">🌱</div>
+    <h3 style="font-size:1.4rem;">The Community is launching soon</h3>
+    <p style="color:var(--gray-600);max-width:520px;margin:10px auto 0;">
+      We're putting the finishing touches on our peer-support forums. Soon you'll be able to
+      sign up (pseudonymously — no real names needed), share what you're going through, ask
+      questions and swap coping strategies with people who get it.
+    </p>
+    <div style="margin:26px 0 6px;">
+      <p style="font-size:0.78rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px;">Forums coming at launch</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px;margin:0 auto;">
+        <span style="background:var(--blue-light);color:var(--blue-dark);font-size:0.82rem;font-weight:700;padding:6px 14px;border-radius:20px;">ADHD in Women, Masking &amp; Coping</span>
+        <span style="background:var(--blue-light);color:var(--blue-dark);font-size:0.82rem;font-weight:700;padding:6px 14px;border-radius:20px;">Work, Study &amp; Daily Life</span>
+        <span style="background:var(--blue-light);color:var(--blue-dark);font-size:0.82rem;font-weight:700;padding:6px 14px;border-radius:20px;">Autism &amp; Masking in Adults</span>
+        <span style="background:var(--blue-light);color:var(--blue-dark);font-size:0.82rem;font-weight:700;padding:6px 14px;border-radius:20px;">AuDHD (ADHD + Autism)</span>
+        <span style="background:var(--blue-light);color:var(--blue-dark);font-size:0.82rem;font-weight:700;padding:6px 14px;border-radius:20px;">Getting a Diagnosis (UK)</span>
+      </div>
+    </div>
+    <div style="margin-top:28px;">
+      <a href="quiz.html" class="btn btn-primary">Take the free screening quiz →</a>
+    </div>
+    <p style="font-size:0.82rem;color:var(--gray-400);margin-top:16px;">
+      In the meantime, explore our <a href="resources.html" style="color:var(--blue);text-decoration:none;font-weight:600;">resources</a>
+      and <a href="tools.html" style="color:var(--blue);text-decoration:none;font-weight:600;">tools</a>.
+    </p>
+  </div>
+  <!-- LAUNCHING-SOON PLACEHOLDER END -->
+
+  <!-- LIVE COMMUNITY (disabled until Supabase backend is active) — uncomment to go live:
+  <div class="authbar" id="authbar"></div>
   <div id="view"><div class="empty">Loading…</div></div>
+  -->
 </div>
 
 <!-- auth modal -->
@@ -196,7 +227,9 @@
   <span>Peer support · Not a medical service · Always consult a qualified clinician</span>
 </footer>
 
+<!-- Community backend disabled while in "launching soon" mode — re-enable with the LIVE COMMUNITY block above:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script src="community.js" defer></script>
+-->
 </body>
 </html>
